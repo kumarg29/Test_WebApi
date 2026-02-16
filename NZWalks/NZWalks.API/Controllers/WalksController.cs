@@ -34,10 +34,13 @@ namespace NZWalks.API.Controllers
 
         }
 
+
+        // GET Walks
+        // GET: /api/walks?filterOn=Name&filterquery=Track&SortBy=Name&IsAscending=True&PageNumber=1&PageSize=10
         [HttpGet]
-        public async Task<IActionResult> GetAllWalks()
+        public async Task<IActionResult> GetAllWalks([FromQuery] string? FilterOn, [FromQuery] string? FilterQuery, [FromQuery] string? SortBy, [FromQuery] bool? IsAscending, [FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 1000)
         {
-            var WalksDomainModel = await _repository.GetAllAsync();
+            var WalksDomainModel = await _repository.GetAllAsync(FilterOn, FilterQuery, SortBy, IsAscending ?? true,PageNumber, PageSize);
             //Map Domain Model To Dto
             return Ok(_mapper.Map<List<WalkDto>>(WalksDomainModel));
         }
@@ -78,8 +81,6 @@ namespace NZWalks.API.Controllers
             // Convert Domain Model To Dto
 
             return Ok(_mapper.Map<WalkDto>(WalkDomainModel));
-
-
         }
 
         // Delete Walk by Id
@@ -97,7 +98,6 @@ namespace NZWalks.API.Controllers
             // Convert Domain Model To Dto
             var walkdto = _mapper.Map<WalkDto>(WalkDomainModel);
             return Ok(walkdto);
-
         }
     }
 }
