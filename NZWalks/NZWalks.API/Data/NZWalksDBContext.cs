@@ -5,7 +5,7 @@ namespace NZWalks.API.Data
 {
     public class NZWalksDBContext : DbContext
     {
-        public NZWalksDBContext(DbContextOptions DbcontextOptions) : base(DbcontextOptions)
+        public NZWalksDBContext(DbContextOptions<NZWalksDBContext> DbcontextOptions) : base(DbcontextOptions)
         {
 
         }

@@ -22,8 +22,7 @@ namespace NZWalks.API.Repositories
 
 
 
-        public async Task<List<Walk>> GetAllAsync(string? FilterOn = null, string? FilterQuery = null, string? SortBy = null, bool IsAscending = true, int PageNumber = 1, int PageSize = 1000
-            ) //FilterOn is the column on which we are filtering and FilterQuery is the Query
+        public async Task<List<Walk>> GetAllAsync(string? FilterOn = null, string? FilterQuery = null, string? SortBy = null, bool IsAscending = true, int PageNumber = 1, int PageSize = 1000) //FilterOn is the column on which we are filtering and FilterQuery is the Query
         {
             var Walks = _Context.Walks.Include("Difficulty").Include("Region").AsQueryable();
             // Filtering

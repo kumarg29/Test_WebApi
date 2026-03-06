@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ namespace NZWalks.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class RegionsController : ControllerBase
     {
         private readonly NZWalksDBContext DbContext;
@@ -28,6 +30,7 @@ namespace NZWalks.API.Controllers
 
         //GET : https://lpcalhost:portnumber/api/regions
         [HttpGet]
+        [Authorize(Roles = "Reader")]
         public async Task<IActionResult> GetAll()
         {
             //Get Data from database - Domain models
@@ -53,6 +56,7 @@ namespace NZWalks.API.Controllers
         //GET : https://localhost:portnumber/api/regions/{Id}
         [HttpGet]
         [Route("{id:Guid}")]
+        [Authorize(Roles = "Reader")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             //var region = DbContext.Regions.Find(Id);
@@ -80,6 +84,7 @@ namespace NZWalks.API.Controllers
         //POST : https://localhost:portnumber/api/regions
         [HttpPost]
         [ValidateModel]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> CreateRegion([FromBody] AddRegionRequestDto addregiondto)
         {
             // Map Dto to Domain Model
@@ -112,6 +117,7 @@ namespace NZWalks.API.Controllers
         [HttpPut]
         [Route("{Id:Guid}")]
         [ValidateModel]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> UpdateRegion([FromRoute] Guid Id, [FromBody] UpdateRegionRequestDto updateregionrequestdto)
         {
             // Map Dto to Domain Model
@@ -148,6 +154,7 @@ namespace NZWalks.API.Controllers
         //Delete Region
         [HttpDelete]
         [Route("{Id:Guid}")]
+        [Authorize(Roles = "Writer, Reader")]
         public async Task<IActionResult> DeleteRegion([FromRoute] Guid Id)
         {
             //var RegionDomainModel = await DbContext.Regions.FirstOrDefaultAsync(x => x.Id == Id);
